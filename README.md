@@ -6,11 +6,13 @@ Todos los datos, códigos, proveedores y contenedores son ficticios. Las fechas 
 
 ## Qué muestra
 
-- **Tienda**: la app del jefe de tienda. Resumen del día, pedidos en camino con su seguimiento, y un chat que responde consultas con los datos (cuándo llega, dónde está, por qué no se repuso).
-- **Planificación**: solo las excepciones, ordenadas por venta en riesgo, con la acción sugerida (transferir entre tiendas, sustituto, adelantar o escalar) y las consultas que las tiendas no pudieron resolver solas.
-- **Cómo funciona**: fuentes de datos, reglas del semáforo y fases de implementación.
+- **Alertas**: productos que se quedan sin stock antes de que llegue su pedido, ordenados por venta en riesgo. Cada fila abre un panel con el seguimiento del pedido, la acción sugerida y de qué sistema sale cada dato.
+- **Importaciones**: contenedores con sus hitos (embarque, arribo, aduana, levante, CD) y el impacto por tienda.
+- **Consultas**: lo que preguntan las tiendas, cuánto se responde con datos y lo que queda para planificación.
+- **Vista de tienda**: la app del jefe de tienda, con resumen del día, pedidos en camino y consultas por chat.
+- **Fuentes de datos**: los cinco sistemas que alimentan el radar y la actividad del día.
 
-En la vista Tienda se pueden simular eventos (una importación que cae en canal rojo, un salto de demanda, un proveedor que confirma) para ver cómo el radar recalcula y avisa solo a las tiendas afectadas.
+La barra de demo, abajo, avanza el día: a las 9:40 llega un canal rojo de aduana, a las 11:15 una alza de demanda desde ventas y a las 3:20 p. m. una confirmación de compras. El radar recalcula y avisa solo a las tiendas afectadas.
 
 ## Reglas principales
 

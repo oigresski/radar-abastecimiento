@@ -1,6 +1,7 @@
 import { SKUS, TIENDAS, type TipoConsulta } from '../data/seed'
 import { dias, fechaCorta, fechaRelativa, normalizar } from '../lib/format'
 import { motivo, motivoCorto, nombrePaso, textoAccion, type Fila } from './engine'
+import { fuentesDe } from './fuentes'
 
 export type Tono = 'rojo' | 'ambar' | 'verde'
 
@@ -8,6 +9,8 @@ export interface Ficha {
   titulo: string
   subtitulo?: string
   filas: { etiqueta: string; valor: string; tono?: Tono }[]
+  /** sistemas de donde sale la información */
+  fuente?: string
 }
 
 export interface Respuesta {
@@ -98,7 +101,7 @@ export function fichaProducto(f: Fila, tipo: TipoConsulta = 'Estado del pedido')
   } else if (f.accion?.tipo === 'transferir') {
     filas.push({ etiqueta: 'Propuesta', valor: `${textoAccion(f.accion, f)} (por aprobar)` })
   }
-  return { titulo: f.sku.nombre, subtitulo: `Cód. ${f.sku.code}`, filas }
+  return { titulo: f.sku.nombre, subtitulo: `Cód. ${f.sku.code}`, filas, fuente: `Fuente: ${fuentesDe(f)}` }
 }
 
 function frase(f: Fila, tipo: TipoConsulta): string {
@@ -120,7 +123,7 @@ export function responder(texto: string, filasTienda: Fila[]): Respuesta {
   if (!n) return { texto: 'Escríbeme el código o el nombre del producto.', tipo: 'Otro', resuelta: false }
   if (/^(hola|buenos dias|buenas)\b/.test(n) && n.split(' ').length <= 3)
     return {
-      texto: 'Hola. Escríbeme el código de 6 dígitos o el nombre de un producto y te digo dónde está, cuándo llega o por qué no se repuso.',
+      texto: 'Escribe el código de 6 dígitos o el nombre de un producto para ver dónde está, cuándo llega o por qué no se repuso.',
       tipo: 'Otro',
       resuelta: true,
     }
@@ -141,7 +144,7 @@ export function responder(texto: string, filasTienda: Fila[]): Respuesta {
 
   if (!code)
     return {
-      texto: 'No encuentro ese producto en tu tienda. Prueba con el código de 6 dígitos o con el nombre, por ejemplo «fragua blanca». Si es otro tema, lo paso a planificación.',
+      texto: 'No hay un producto con ese nombre en tu tienda. Prueba con el código de 6 dígitos o el nombre, por ejemplo «fragua blanca». Si es otro tema, pásalo a planificación.',
       tipo: 'Otro',
       resuelta: false,
       ofrecerDerivar: true,
